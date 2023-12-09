@@ -66,7 +66,16 @@ const BoardUser = () => {
               {
                 key: "2",
                 icon: <VideoCameraOutlined />,
-                label: "nav 2",
+                label: (
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href="https://www.antgroup.com"
+                  >
+                    {" "}
+                    nav 1{" "}
+                  </a>
+                ),
               },
               {
                 key: "3",
