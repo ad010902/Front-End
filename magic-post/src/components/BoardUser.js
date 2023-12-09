@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
+import './main.css';
 
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  UploadOutlined,
-  UserOutlined,
+  HistoryOutlined,
+  CarOutlined,
   VideoCameraOutlined,
 } from "@ant-design/icons";
 
@@ -46,25 +47,27 @@ const BoardUser = () => {
   }, []);
 
   return (
-    <div className="container">
+    <div className="container-fluid">
       <header className="jumbotron">
         <h3> {content} </h3>{" "}
       </header>{" "}
-      <Layout>
+      <Layout className="layout-height">
         <Sider trigger={null} collapsible collapsed={collapsed}>
           <div className="demo-logo-vertical" />
-          <Menu
+          <Menu 
+            className="mt-menu"
             theme="dark"
             mode="inline"
             defaultSelectedKeys={["1"]}
             items={[
               {
                 key: "1",
-                icon: <UserOutlined />,
-                label: "nav 1",
+                icon: <CarOutlined />,
+                label: "Order Moving",
               },
               {
                 key: "2",
+<<<<<<< HEAD
                 icon: <VideoCameraOutlined />,
                 label: (
                   <a
@@ -81,6 +84,10 @@ const BoardUser = () => {
                 key: "3",
                 icon: <UploadOutlined />,
                 label: "nav 3",
+=======
+                icon: <HistoryOutlined />,
+                label: "Order History",
+>>>>>>> 116cc26d5609c0ac4756ce4509c9c9027787ba78
               },
             ]}
           />{" "}

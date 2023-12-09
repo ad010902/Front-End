@@ -102,7 +102,7 @@ const App = () => {
           </div>
         )}{" "}
       </nav>{" "}
-      <div className="container mt-3">
+      <div className="container-fluid mt-3">
         <Routes>
           <Route exact path={"/"} element={<Home />} />{" "}
           <Route exact path={"/home"} element={<Home />} />{" "}

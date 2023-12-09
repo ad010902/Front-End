@@ -30,3 +30,8 @@ label {
   -webkit-border-radius: 50%;
   border-radius: 50%;
 }
+
+.container-fluid{
+  margin: 0;
+  padding: 0;
+}

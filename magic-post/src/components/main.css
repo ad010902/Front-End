@@ -1,0 +1,11 @@
+.layout-height{
+    height: calc(100vh - 48px - 16px - 40px - 10px);
+}
+
+.mt-menu{
+    margin-top: 20px;
+}
+
+.btn{
+    margin: 16px 0;
+}
