@@ -11,20 +11,20 @@ import {
   notification,
 } from "antd";
 import AuthService from "../../../services/auth.service";
-import { formMessages, notiMessages } from "../../../constants/messages";
+import { formMessages } from "../../../constants/messages";
 import { UserOutlined } from "@ant-design/icons";
 import AuthContext from "../../../contexts/AuthContext";
+import { Role } from "../../../constants";
 
 const Login = () => {
   const navigate = useNavigate();
   const { user, setUser } = useContext(AuthContext);
-  const checkSignedIn = () => {
-    navigate("/");
-  };
 
-  if (user) {
-    checkSignedIn();
-  }
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user]);
 
   const handleLogin = async (values) => {
     try {
@@ -34,11 +34,19 @@ const Login = () => {
         duration: 1,
       });
       delete res.message;
-    //   localStorage.setItem("token", JSON.stringify(res.token));
-    //   delete res.token;
+      //   localStorage.setItem("token", JSON.stringify(res.token));
+      //   delete res.token;
       setUser(res);
       localStorage.setItem("user", JSON.stringify(res));
-      navigate("/");
+      switch (res.roles[0]) {
+        case Role.owner:
+          navigate("/admin");
+          break;
+
+        default:
+          navigate("/");
+          break;
+      }
     } catch (error) {
       notification.error({
         message: error.response.data.message,

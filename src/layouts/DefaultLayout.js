@@ -14,6 +14,7 @@ import { useContext, useEffect } from "react";
 import { UserOutlined, LoginOutlined, LogoutOutlined } from "@ant-design/icons";
 import { MenuItemKey } from "../constants";
 import { notiMessages } from "../constants/messages";
+import AuthService from "../services/auth.service";
 
 const { Header, Content, Sider } = Layout;
 
@@ -33,12 +34,12 @@ const authMenu = [
   },
 ];
 
-export default function DefaultLayout({ menuItems, breadcrumbItems }) {
-  const { user } = useContext(AuthContext);
+export default function DefaultLayout({ menuItems }) {
+  const { user, setUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user) {
+    if (!user && user !== undefined) {
       notification.error({
         message: notiMessages.signInYet,
         duration: 1,
@@ -47,12 +48,23 @@ export default function DefaultLayout({ menuItems, breadcrumbItems }) {
     }
   }, [user]);
 
-  const handleClickMenuItem = ({ key }) => {
+  const handleClickMenuItem = async ({ key }) => {
     switch (key) {
       case MenuItemKey.signIn:
         navigate(`/${key}`);
         break;
-
+      case MenuItemKey.signOut:
+        try {
+          await AuthService.logout();
+          localStorage.removeItem("user");
+          setUser(null);
+          navigate("/sign-in");
+        } catch (error) {
+          notification.error({
+            message: notiMessages.error,
+          });
+        }
+        break;
       default:
         break;
     }
@@ -101,28 +113,7 @@ export default function DefaultLayout({ menuItems, breadcrumbItems }) {
             padding: "0 24px 24px",
           }}
         >
-          <Breadcrumb
-            style={{
-              margin: "16px 0",
-            }}
-          >
-            {breadcrumbItems?.map((breadcrumbItem) => {
-              return (
-                <Breadcrumb.Item key={breadcrumbItem}>
-                  {breadcrumbItem}
-                </Breadcrumb.Item>
-              );
-            })}
-          </Breadcrumb>
-          <Content
-            style={{
-              padding: 24,
-              margin: 0,
-              minHeight: 280,
-            }}
-          >
-            <Outlet />
-          </Content>
+          <Outlet />
         </Layout>
       </Layout>
     </Layout>

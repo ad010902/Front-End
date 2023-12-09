@@ -16,10 +16,7 @@ const login = (data) => {
 };
 
 const logout = () => {
-  localStorage.removeItem("user");
-  return axios.post(API_URL + "signout").then((response) => {
-    return response.data;
-  });
+  return instance.post("/auth/signin");
 };
 
 const getCurrentUser = () => {

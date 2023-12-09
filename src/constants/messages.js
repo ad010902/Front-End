@@ -9,7 +9,8 @@ const formMessages = {
 
 const notiMessages = {
   signedIn: "Đã đăng nhập!",
-  signInYet: "Bạn cần đăng nhập!"
+  signInYet: "Bạn cần đăng nhập!",
+  error: "Lỗi!",
 };
 
 export { formMessages, notiMessages };
