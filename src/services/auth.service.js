@@ -1,4 +1,5 @@
 import axios from "axios";
+import instance from "../config/axios";
 
 const API_URL = "http://localhost:3000/api/auth/";
 
@@ -10,19 +11,8 @@ const register = (username, email, password) => {
   });
 };
 
-const login = (username, password) => {
-  return axios
-    .post(API_URL + "signin", {
-      username,
-      password,
-    })
-    .then((response) => {
-      if (response.data.username) {
-        localStorage.setItem("user", JSON.stringify(response.data));
-      }
-
-      return response.data;
-    });
+const login = (data) => {
+  return instance.post("/auth/signin", data);
 };
 
 const logout = () => {
