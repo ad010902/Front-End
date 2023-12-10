@@ -38,16 +38,14 @@ const Login = () => {
       //   delete res.token;
       setUser(res);
       localStorage.setItem("user", JSON.stringify(res));
-      switch (res.roles[0]) {
-        case Role.owner:
-          navigate("/admin");
-          break;
-
-        default:
-          navigate("/");
-          break;
+      if (res.roles.includes(Role.owner)) {
+        console.log(res.roles.includes(Role.owner));
+        navigate("/admin/diem-giao-dich");
+      } else {
+        navigate("/");
       }
     } catch (error) {
+      console.log(error);
       notification.error({
         message: error.response.data.message,
         duration: 1,

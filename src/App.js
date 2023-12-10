@@ -20,7 +20,9 @@ const App = () => {
     //     user = null;
     //   }
     // }
-    setUser(user);
+    if (user) {
+      setUser(JSON.parse(user));
+    }
   }, []);
   return (
     <Routes>
@@ -34,7 +36,7 @@ const App = () => {
         element={<DefaultLayout menuItems={AdminMenuItems} />}
       >
         <Route path="" element={<OwnerMiddleware />}>
-          <Route path="" element={<AdminDashboard />} />
+          <Route path="diem-tap-ket" element={<AdminDashboard />} />
         </Route>
       </Route>
     </Routes>

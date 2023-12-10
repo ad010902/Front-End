@@ -4,17 +4,18 @@ const MenuItemKey = {
 };
 
 const Role = {
-  owner: "admin",
+  owner: "ROLE_ADMIN",
+  managerGather: "ROLE_MANAGERGATHER",
 };
 
 const AdminMenuItems = [
   {
-    key: "diem-giao-dich",
-    label: "Điểm giao dịch",
-  },
-  {
     key: "diem-tap-ket",
     label: "Điểm tập kết",
+  },
+  {
+    key: "diem-giao-dich",
+    label: "Điểm giao dịch",
   },
   {
     key: "thong-ke",

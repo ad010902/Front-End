@@ -1,22 +1,14 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import AuthContext from "../contexts/AuthContext";
-import {
-  Breadcrumb,
-  Menu,
-  Layout,
-  Flex,
-  Avatar,
-  Dropdown,
-  notification,
-} from "antd";
+import { Menu, Layout, Avatar, Dropdown, notification } from "antd";
 import { Typography } from "antd";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { UserOutlined, LoginOutlined, LogoutOutlined } from "@ant-design/icons";
 import { MenuItemKey } from "../constants";
 import { notiMessages } from "../constants/messages";
 import AuthService from "../services/auth.service";
 
-const { Header, Content, Sider } = Layout;
+const { Header, Sider } = Layout;
 
 const guessAuthMenu = [
   {
@@ -37,6 +29,13 @@ const authMenu = [
 export default function DefaultLayout({ menuItems }) {
   const { user, setUser } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const selectingMenuItem = useMemo(() => {
+    const currentKeys = location.pathname.split("/");
+
+    return currentKeys[currentKeys.length - 1];
+  }, [location]);
 
   useEffect(() => {
     if (!user && user !== undefined) {
@@ -69,6 +68,10 @@ export default function DefaultLayout({ menuItems }) {
         break;
     }
   };
+
+  const handleClickPageMenu = ({ key }) => {
+    navigate(key);
+  };
   return (
     <Layout>
       <Header
@@ -76,6 +79,10 @@ export default function DefaultLayout({ menuItems }) {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
+          position: "fixed",
+          top: 0,
+          width: "100vw",
+          zIndex: 2,
         }}
       >
         <Typography.Title style={{ color: "white" }}>
@@ -95,22 +102,25 @@ export default function DefaultLayout({ menuItems }) {
           </Avatar>
         </Dropdown>
       </Header>
-      <Layout>
-        <Sider width={200}>
+      <Layout style={{ marginTop: "64px" }}>
+        <Sider
+          width={200}
+          style={{ height: "calc(100vh - 64px)", position: "sticky", top: 64 }}
+        >
           <Menu
             mode="inline"
-            defaultSelectedKeys={["1"]}
-            defaultOpenKeys={["sub1"]}
+            defaultSelectedKeys={[selectingMenuItem]}
             style={{
               height: "100%",
               borderRight: 0,
             }}
             items={menuItems}
+            onClick={handleClickPageMenu}
           />
         </Sider>
         <Layout
           style={{
-            padding: "0 24px 24px",
+            padding: "24px 24px",
           }}
         >
           <Outlet />

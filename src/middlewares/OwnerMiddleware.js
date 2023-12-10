@@ -1,15 +1,33 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import AuthContext from "../contexts/AuthContext";
-import { Outlet } from "react-router-dom";
-import NoPermission from "../pages/NoPermission";
+import { Outlet, useNavigate } from "react-router-dom";
 import { Role } from "../constants";
+import { notification } from "antd";
+import { notiMessages } from "../constants/messages";
+import NoPermission from "../pages/NoPermission";
 
 export default function OwnerMiddleware() {
-    const { user } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-    if (!user.roles.include(Role.owner)) {
-        return <NoPermission />
+  useEffect(() => {
+    if (user !== undefined) {
+      if (!user.roles?.includes(Role.owner)) {
+        notification.info({
+          message: notiMessages.noPermission,
+          duration: 1,
+        });
+        setTimeout(() => {
+          navigate(-1);
+        }, 2000);
+      }
     }
-
-    return <Outlet />
+  }, [user, navigate]);
+  if (user !== undefined) {
+    if (!user.roles.includes(Role.owner)) {
+      return <NoPermission />;
+    } else {
+      return <Outlet />;
+    }
+  }
 }
