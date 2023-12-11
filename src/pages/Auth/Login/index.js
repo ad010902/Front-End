@@ -22,7 +22,11 @@ const Login = () => {
 
   useEffect(() => {
     if (user) {
-      navigate("/");
+      if (user.roles.includes(Role.owner)) {
+        navigate("/admin/diem-giao-dich");
+      } else if (user.roles.includes(Role.managerTrans)) {
+        navigate("/manager-trans/giao-dich-vien");
+      } else navigate("/");
     }
   }, [user]);
 
@@ -38,12 +42,6 @@ const Login = () => {
       //   delete res.token;
       setUser(res);
       localStorage.setItem("user", JSON.stringify(res));
-      if (res.roles.includes(Role.owner)) {
-        console.log(res.roles.includes(Role.owner));
-        navigate("/admin/diem-giao-dich");
-      } else {
-        navigate("/");
-      }
     } catch (error) {
       console.log(error);
       notification.error({
