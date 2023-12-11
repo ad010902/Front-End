@@ -6,6 +6,14 @@ const MenuItemKey = {
 const Role = {
   owner: "ROLE_ADMIN",
   managerGather: "ROLE_MANAGERGATHER",
+  managerTrans: "ROLE_MANAGERTRANS",
+  staffTrans: "ROLE_STAFFTRANS",
+};
+
+const RoleName = {
+  [Role.owner]: "Chủ công ty",
+  [Role.managerGather]: "Trưởng điểm tập kết",
+  [Role.managerTrans]: "Trưởng điểm giao dịch",
 };
 
 const AdminMenuItems = [
@@ -16,6 +24,21 @@ const AdminMenuItems = [
   {
     key: "diem-giao-dich",
     label: "Điểm giao dịch",
+  },
+  {
+    key: "tai-khoan",
+    label: "Tài khoản",
+  },
+  {
+    key: "thong-ke",
+    label: "Thống kê",
+  },
+];
+
+const ManagerTransMenuItems = [
+  {
+    key: "giao-dich-vien",
+    label: "Giao dịch viên",
   },
   {
     key: "thong-ke",
@@ -30,4 +53,11 @@ const UserMenuItems = [
   },
 ];
 
-export { MenuItemKey, Role, AdminMenuItems, UserMenuItems };
+export {
+  MenuItemKey,
+  Role,
+  AdminMenuItems,
+  UserMenuItems,
+  RoleName,
+  ManagerTransMenuItems,
+};

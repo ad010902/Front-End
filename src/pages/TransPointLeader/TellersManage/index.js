@@ -3,10 +3,11 @@ import { Button, Flex, Space, Table, notification } from "antd";
 import { DeleteOutlined, EditOutlined, EyeFilled } from "@ant-design/icons";
 import PageHeader from "../../../components/PageHeader";
 import SearchBox from "../../../components/SearchBox";
-import GatheringLocationForm from "./GatheringLocationForm";
-import * as GatherLocationService from "../../../services/gatherLocation.service";
 import { notiMessages } from "../../../constants/messages";
-const AdminDashboard = () => {
+import UserService from "../../../services/user.service";
+import users from "../../../utils/fakeData/User";
+import TellerForm from "./TellerForm";
+const TellersManage = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState(0);
@@ -21,28 +22,20 @@ const AdminDashboard = () => {
   }, [handleCloseForm]);
 
   const getData = async (keyword) => {
-    const res = await GatherLocationService.getGatherLocations(keyword);
-
+    // const res = await UserService.getUsers(keyword);
+    const res = users;
     setData(res);
   };
 
   const columns = useMemo(() => {
     return [
       {
-        title: "Tên điểm tập kết",
-        dataIndex: "nameGather",
-      },
-      {
-        title: "Số điện thoại",
-        dataIndex: "phone",
+        title: "Tên người dùng",
+        dataIndex: "username",
       },
       {
         title: "Email",
         dataIndex: "email",
-      },
-      {
-        title: "Tên người quản lý",
-        dataIndex: "managerGather",
       },
       {
         title: "Thao tác",
@@ -87,7 +80,7 @@ const AdminDashboard = () => {
 
   const handleDelete = async (id) => {
     try {
-      await GatherLocationService.deleteGatherLocationById(id);
+      await UserService.deleteUserById(id);
       getData();
       notification.success({
         message: notiMessages.deleteSuccessfully,
@@ -107,7 +100,7 @@ const AdminDashboard = () => {
   };
   return (
     <>
-      <PageHeader title={"Điểm tập kết"} />
+      <PageHeader title={"Giao dịch viên"} />
       <Flex justify="space-between">
         <SearchBox onSearch={handleSearch} />
         <Button type="primary" onClick={handleAdd}>
@@ -115,13 +108,13 @@ const AdminDashboard = () => {
         </Button>
       </Flex>
       <Table rowSelection={rowSelection} columns={columns} dataSource={data} />
-      <GatheringLocationForm
+      <TellerForm
         open={showForm}
         onCancel={handleCloseForm}
-        title={(editingId ? "Chỉnh sửa" : "Thêm") + " điểm tập kết"}
+        title={(editingId ? "Chỉnh sửa" : "Thêm") + " tài khoản"}
         id={editingId}
       />
     </>
   );
 };
-export default AdminDashboard;
+export default TellersManage;

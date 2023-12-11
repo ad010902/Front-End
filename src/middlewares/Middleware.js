@@ -6,13 +6,13 @@ import { notification } from "antd";
 import { notiMessages } from "../constants/messages";
 import NoPermission from "../pages/NoPermission";
 
-export default function OwnerMiddleware() {
+export default function Middleware({ role }) {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (user !== undefined) {
-      if (!user.roles?.includes(Role.owner)) {
+      if (!user.roles?.includes(role)) {
         notification.info({
           message: notiMessages.noPermission,
           duration: 1,
@@ -24,7 +24,7 @@ export default function OwnerMiddleware() {
     }
   }, [user, navigate]);
   if (user !== undefined) {
-    if (!user.roles.includes(Role.owner)) {
+    if (!user.roles.includes(role)) {
       return <NoPermission />;
     } else {
       return <Outlet />;

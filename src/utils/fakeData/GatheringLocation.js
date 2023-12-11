@@ -3,7 +3,7 @@ import managers from "./Manager";
 const gatheringLocations = [
   {
     id: 1,
-    name: "Gathering Location 1",
+    nameGather: "Gathering Location 1",
     phone: "0123456789",
     email: "gathering-location-1@gmail.com",
     address: "XX, YY, ZZ",
@@ -11,7 +11,7 @@ const gatheringLocations = [
   },
   {
     id: 2,
-    name: "Gathering Location 2",
+    nameGather: "Gathering Location 2",
     phone: "0123456789",
     email: "gathering-location-2@gmail.com",
     address: "XX, YY, ZZ",

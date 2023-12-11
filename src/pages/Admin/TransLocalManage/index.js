@@ -3,10 +3,11 @@ import { Button, Flex, Space, Table, notification } from "antd";
 import { DeleteOutlined, EditOutlined, EyeFilled } from "@ant-design/icons";
 import PageHeader from "../../../components/PageHeader";
 import SearchBox from "../../../components/SearchBox";
-import GatheringLocationForm from "./GatheringLocationForm";
-import * as GatherLocationService from "../../../services/gatherLocation.service";
 import { notiMessages } from "../../../constants/messages";
-const AdminDashboard = () => {
+import * as TransLocalService from "../../../services/transLocal.service";
+import TransLocalForm from "./TransLocalForm";
+import transLocaltions from "../../../utils/fakeData/TransLocation";
+const TransLocalManage = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState(0);
@@ -21,16 +22,16 @@ const AdminDashboard = () => {
   }, [handleCloseForm]);
 
   const getData = async (keyword) => {
-    const res = await GatherLocationService.getGatherLocations(keyword);
-
+    // const res = await TransLocalService.getTransLocals(keyword);
+    const res = transLocaltions;
     setData(res);
   };
 
   const columns = useMemo(() => {
     return [
       {
-        title: "Tên điểm tập kết",
-        dataIndex: "nameGather",
+        title: "Tên điểm giao dịch",
+        dataIndex: "nameTrans",
       },
       {
         title: "Số điện thoại",
@@ -42,7 +43,17 @@ const AdminDashboard = () => {
       },
       {
         title: "Tên người quản lý",
-        dataIndex: "managerGather",
+        dataIndex: "managerTrans",
+        render: (_, record) => {
+          return record.managerTrans.username;
+        },
+      },
+      {
+        title: "Thuộc điểm tập kết",
+        dataIndex: "gatherLocation",
+        render: (_, record) => {
+          return record.gatherTrans.nameGather;
+        },
       },
       {
         title: "Thao tác",
@@ -87,7 +98,7 @@ const AdminDashboard = () => {
 
   const handleDelete = async (id) => {
     try {
-      await GatherLocationService.deleteGatherLocationById(id);
+      await TransLocalService.getTransLocalById(id);
       getData();
       notification.success({
         message: notiMessages.deleteSuccessfully,
@@ -107,7 +118,7 @@ const AdminDashboard = () => {
   };
   return (
     <>
-      <PageHeader title={"Điểm tập kết"} />
+      <PageHeader title={"Điểm giao dịch"} />
       <Flex justify="space-between">
         <SearchBox onSearch={handleSearch} />
         <Button type="primary" onClick={handleAdd}>
@@ -115,13 +126,13 @@ const AdminDashboard = () => {
         </Button>
       </Flex>
       <Table rowSelection={rowSelection} columns={columns} dataSource={data} />
-      <GatheringLocationForm
+      <TransLocalForm
         open={showForm}
         onCancel={handleCloseForm}
-        title={(editingId ? "Chỉnh sửa" : "Thêm") + " điểm tập kết"}
+        title={(editingId ? "Chỉnh sửa" : "Thêm") + " điểm giao dịch"}
         id={editingId}
       />
     </>
   );
 };
-export default AdminDashboard;
+export default TransLocalManage;
