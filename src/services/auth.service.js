@@ -16,7 +16,7 @@ const login = (data) => {
 };
 
 const logout = () => {
-  return instance.post("/auth/signin");
+  return instance.post("/auth/signout");
 };
 
 const getCurrentUser = () => {
