@@ -1,6 +1,7 @@
 const MenuItemKey = {
   signIn: "sign-in",
   signOut: "sign-out",
+  profile: "profile",
 };
 
 const Role = {
@@ -14,6 +15,7 @@ const RoleName = {
   [Role.owner]: "Chủ công ty",
   [Role.managerGather]: "Trưởng điểm tập kết",
   [Role.managerTrans]: "Trưởng điểm giao dịch",
+  [Role.staffTrans]: "Giao dịch viên",
 };
 
 const AdminMenuItems = [
@@ -46,6 +48,17 @@ const ManagerTransMenuItems = [
   },
 ];
 
+const TellerMenuItems = [
+  {
+    key: "don-hang",
+    label: "Đơn hàng",
+  },
+  {
+    key: "thong-ke",
+    label: "Thống kê",
+  },
+];
+
 const UserMenuItems = [
   {
     key: "nav-1",
@@ -60,4 +73,5 @@ export {
   UserMenuItems,
   RoleName,
   ManagerTransMenuItems,
+  TellerMenuItems,
 };

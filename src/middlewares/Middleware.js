@@ -12,11 +12,7 @@ export default function Middleware({ role }) {
 
   useEffect(() => {
     if (user !== undefined) {
-      if (!user.roles?.includes(role)) {
-        notification.info({
-          message: notiMessages.noPermission,
-          duration: 1,
-        });
+      if (!user?.roles?.includes(role)) {
         setTimeout(() => {
           navigate(-1);
         }, 2000);
@@ -24,7 +20,7 @@ export default function Middleware({ role }) {
     }
   }, [user, navigate]);
   if (user !== undefined) {
-    if (!user.roles.includes(role)) {
+    if (!user?.roles?.includes(role)) {
       return <NoPermission />;
     } else {
       return <Outlet />;
