@@ -11,11 +11,13 @@ import {
   AdminMenuItems,
   ManagerTransMenuItems,
   Role,
+  TellerMenuItems,
   UserMenuItems,
 } from "./constants";
 import TransLocalManage from "./pages/Admin/TransLocalManage";
 import AccountsManage from "./pages/Admin/AccountsManage";
 import TellersManage from "./pages/TransPointLeader/TellersManage";
+import OrdersManage from "./pages/Teller/OrdersManage";
 
 const App = () => {
   const { setUser } = useContext(AuthContext);
@@ -55,6 +57,14 @@ const App = () => {
       >
         <Route path="" element={<Middleware role={Role.managerTrans} />}>
           <Route path="giao-dich-vien" element={<TellersManage />} />
+        </Route>
+      </Route>
+      <Route
+        path="giao-dich-vien"
+        element={<DefaultLayout menuItems={TellerMenuItems} />}
+      >
+        <Route element={<Middleware role={Role.staffTrans} />}>
+          <Route path="don-hang" element={<OrdersManage />} />
         </Route>
       </Route>
     </Routes>

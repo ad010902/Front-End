@@ -1,6 +1,6 @@
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import AuthContext from "../contexts/AuthContext";
-import { Menu, Layout, Avatar, Dropdown, notification } from "antd";
+import { Menu, Layout, Avatar, Dropdown, notification, Flex } from "antd";
 import { Typography } from "antd";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { UserOutlined, LoginOutlined, LogoutOutlined } from "@ant-design/icons";
@@ -38,11 +38,7 @@ export default function DefaultLayout({ menuItems }) {
   }, [location]);
 
   useEffect(() => {
-    if (!user && user !== undefined) {
-      notification.error({
-        message: notiMessages.signInYet,
-        duration: 1,
-      });
+    if (!user) {
       navigate("/sign-in");
     }
   }, [user]);
@@ -94,12 +90,17 @@ export default function DefaultLayout({ menuItems }) {
             onClick: handleClickMenuItem,
           }}
         >
-          <Avatar
-            style={{ backgroundColor: "white", color: "black" }}
-            icon={<UserOutlined />}
-          >
-            {user?.username?.substring(0, 1)}
-          </Avatar>
+          <Flex align="center" gap={8}>
+            <Typography.Text style={{ color: "white" }}>
+              {user.username}
+            </Typography.Text>
+            <Avatar
+              style={{ backgroundColor: "white", color: "black" }}
+              icon={<UserOutlined />}
+            >
+              {user?.username?.substring(0, 1)}
+            </Avatar>
+          </Flex>
         </Dropdown>
       </Header>
       <Layout style={{ marginTop: "64px" }}>

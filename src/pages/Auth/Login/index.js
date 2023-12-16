@@ -15,6 +15,7 @@ import { formMessages } from "../../../constants/messages";
 import { UserOutlined } from "@ant-design/icons";
 import AuthContext from "../../../contexts/AuthContext";
 import { Role } from "../../../constants";
+import Typography from "antd/es/typography/Typography";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -26,6 +27,8 @@ const Login = () => {
         navigate("/admin/diem-giao-dich");
       } else if (user.roles.includes(Role.managerTrans)) {
         navigate("/manager-trans/giao-dich-vien");
+      } else if (user.roles.includes(Role.staffTrans)) {
+        navigate("/giao-dich-vien/don-hang");
       } else navigate("/");
     }
   }, [user]);
