@@ -119,11 +119,15 @@ const DeliverFailedOrderStepsItems = [
 
 const ReturnOrderStepsItems = [
   {
-    title: "Đơn hàng giao hoàn",
+    title: "Đang giao hoàn từ điểm tập kết",
+    orderStatus: OrderStatus.returnStartTransacLocal,
+  },
+  {
+    title: "Đã đến",
     orderStatus: OrderStatus.atReturnedStartTransacLocal,
   },
   {
-    title: "Đang giao hoàn",
+    title: "Đang giao hoàn đến khách hàng",
     orderStatus: OrderStatus.returnGiver,
   },
   {

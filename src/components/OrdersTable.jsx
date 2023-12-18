@@ -59,50 +59,47 @@ export default function OrdersTable({ status, placeType = "TRANSAC_LOCAL" }) {
         dataIndex: "addressIfS",
       },
       {
-        title: newStatus && "Trạng thái",
-        dataIndex: newStatus && "status",
+        title: "Trạng thái",
+        dataIndex: "status",
+        hidden: !newStatus,
       },
       {
-        title: status === OrderStatus.toCustomer && "Trạng thái",
-        dataIndex: status === OrderStatus.toCustomer && "deliverStatus",
+        title: "Trạng thái",
+        dataIndex: "deliverStatus",
         render: (_, record) => {
           return (
-            status === OrderStatus.toCustomer && (
-              <Select
-                style={{
-                  width: "100%",
-                }}
-                defaultValue={OrderStatus.toCustomer}
-                options={[
-                  {
-                    value: OrderStatus.toCustomer,
-                    label: "Đang giao",
-                  },
-                  {
-                    value: OrderStatus.returnEndTransacLocal,
-                    label: "Chuyển về kho",
-                  },
-                  {
-                    value: OrderStatus.deliverFailed,
-                    label: "Giao thất bại",
-                  },
-                ]}
-                onChange={handleChangeDeliverStatus}
-              />
-            )
+            <Select
+              style={{
+                width: "100%",
+              }}
+              defaultValue={OrderStatus.toCustomer}
+              options={[
+                {
+                  value: OrderStatus.toCustomer,
+                  label: "Đang giao",
+                },
+                {
+                  value: OrderStatus.returnEndTransacLocal,
+                  label: "Chuyển về kho",
+                },
+                {
+                  value: OrderStatus.deliverFailed,
+                  label: "Giao thất bại",
+                },
+              ]}
+              onChange={handleChangeDeliverStatus}
+            />
           );
         },
+        hidden: status !== OrderStatus.toCustomer,
       },
       {
-        title: toStatus && "Đã nhận",
-        dataIndex: toStatus && "orderStatus",
+        title: "Đã nhận",
+        dataIndex: "orderStatus",
         render: (_, record) => {
-          return (
-            toStatus && (
-              <Switch onChange={() => handleReceived(record.idOrder)} />
-            )
-          );
+          return <Switch onChange={() => handleReceived(record.idOrder)} />;
         },
+        hidden: !toStatus,
       },
       {
         title: "Thao tác",
@@ -119,7 +116,7 @@ export default function OrdersTable({ status, placeType = "TRANSAC_LOCAL" }) {
           );
         },
       },
-    ];
+    ].filter((column) => !column.hidden);
   }, [data]);
   const onSelectChange = (newSelectedRowKeys) => {
     console.log("selectedRowKeys changed: ", newSelectedRowKeys);
@@ -170,7 +167,7 @@ export default function OrdersTable({ status, placeType = "TRANSAC_LOCAL" }) {
           columns={columns}
           dataSource={data}
           rowSelection={
-            status.match(new RegExp(`/^AT_\w+?${placeType}$/g`)) ||
+            status.match(new RegExp(`^AT_\\w+?${placeType}$`, "g")) ||
             status === OrderStatus.new
               ? rowSelection
               : null
@@ -184,13 +181,13 @@ export default function OrdersTable({ status, placeType = "TRANSAC_LOCAL" }) {
         />
       )}
       {(editOrderId || showAddForm) && (
-          <OrderForm
-            title={editOrderId ? "Chỉnh sửa đơn hàng" : "Thêm đơn hàng"}
-            open={editOrderId || showAddForm}
-            onCancel={handleCancelForm}
-            id={editOrderId}
-          />
-        )}
+        <OrderForm
+          title={editOrderId ? "Chỉnh sửa đơn hàng" : "Thêm đơn hàng"}
+          open={editOrderId || showAddForm}
+          onCancel={handleCancelForm}
+          id={editOrderId}
+        />
+      )}
     </>
   );
 }

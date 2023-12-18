@@ -94,6 +94,7 @@ export default function OrderDetailModal({ showOrder, onCancel }) {
         okText={"In biên lai"}
         onOk={handlePrint}
         width={860}
+        centered
       >
         <OrderReceipt ref={orderReceipPrintRef} order={showOrder} />
       </Modal>
