@@ -1,23 +1,17 @@
-import {
-  Button,
-  Divider,
-  Flex,
-  Modal,
-  Select,
-  Space,
-  Switch,
-  Table,
-  Typography,
-} from "antd";
-import ActionsCell from "../../../components/ActionsCell";
+import { Button, Flex, Select, Space, Switch, Table, Typography } from "antd";
+import ActionsCell from "./ActionsCell";
 import { useEffect, useMemo, useState } from "react";
-import { OrderStatus, orders } from "../../../utils/fakeData/Order";
-import SearchBox from "../../../components/SearchBox";
+import { OrderStatus, orders } from "../utils/fakeData/Order";
+import SearchBox from "./SearchBox";
+import OrderDetailModal from "./OrderDetailModal";
+import OrderForm from "./OrderForm";
 
-export default function OrdersTable({ status }) {
+export default function OrdersTable({ status, placeType = "TRANSAC_LOCAL" }) {
   const [data, setData] = useState([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [showOrder, setShowOrder] = useState();
+  const [editOrderId, setEditOrderId] = useState(0);
+  const [showAddForm, setShowAddForm] = useState(false);
 
   useEffect(() => {
     getData();
@@ -30,12 +24,15 @@ export default function OrdersTable({ status }) {
 
   const handleShow = (id) => {
     const order = data.find((item) => item.idOrder === id);
-    console.log(order);
     setShowOrder(order);
   };
   const handleReceived = (orderId) => {};
 
   const handleChangeDeliverStatus = (value) => {};
+
+  const handleEdit = (orderId) => {
+    setEditOrderId(orderId);
+  };
 
   const columns = useMemo(() => {
     const toStatus = status.match(new RegExp(/^TO_\w+?/));
@@ -115,6 +112,7 @@ export default function OrdersTable({ status }) {
             <ActionsCell
               record={record}
               onShow={() => handleShow(record.idOrder)}
+              onEdit={() => handleEdit(record.idOrder)}
               hasDelete={status === OrderStatus.new}
               hasEdit={status === OrderStatus.new}
             />
@@ -136,6 +134,11 @@ export default function OrdersTable({ status }) {
   const handleSend = () => {};
 
   const handleSearch = (keyword) => {};
+
+  const handleCancelForm = () => {
+    setEditOrderId(0);
+    setShowAddForm(false);
+  };
   return (
     <>
       <Space direction="vertical" style={{ width: "100%" }}>
@@ -157,13 +160,17 @@ export default function OrdersTable({ status }) {
         </Flex>
         <Flex justify="space-between">
           <SearchBox onSearch={handleSearch} />
-          <Button type="primary">Thêm</Button>
+          {status === OrderStatus.new && (
+            <Button onClick={() => setShowAddForm(true)} type="primary">
+              Thêm
+            </Button>
+          )}
         </Flex>
         <Table
           columns={columns}
           dataSource={data}
           rowSelection={
-            status.match(new RegExp(/^AT_\w+?TRANSAC_LOCAL$/g)) ||
+            status.match(new RegExp(`/^AT_\w+?${placeType}$/g`)) ||
             status === OrderStatus.new
               ? rowSelection
               : null
@@ -171,69 +178,19 @@ export default function OrdersTable({ status }) {
         />
       </Space>
       {showOrder && (
-        <Modal
-          open={Boolean(showOrder)}
+        <OrderDetailModal
+          showOrder={showOrder}
           onCancel={() => setShowOrder(null)}
-          footer={null}
-        >
-          <Typography.Title level={4}>{showOrder.title}</Typography.Title>
-          <Typography.Text>Mã đơn: {showOrder.idOrder}</Typography.Text>
-          <Divider style={{ marginTop: ".5rem" }} />
-          <Flex vertical gap={4}>
-            <Space>
-              <Typography.Text strong>Tên đơn: </Typography.Text>
-              <Typography.Text>{showOrder.name}</Typography.Text>
-            </Space>
-            <Space>
-              <Typography.Text strong>Địa chỉ gửi: </Typography.Text>
-              <Typography.Text>{showOrder.addressIfS}</Typography.Text>
-            </Space>
-            <Space>
-              <Typography.Text strong>Địa chỉ nhận: </Typography.Text>
-              <Typography.Text>{showOrder.addressIfR}</Typography.Text>
-            </Space>
-            <Space>
-              <Typography.Text strong>Loại đơn: </Typography.Text>
-              <Typography.Text>{showOrder.typeOrder}</Typography.Text>
-            </Space>
-            <Space>
-              <Typography.Text strong>Nội dung đơn: </Typography.Text>
-              <Typography.Text>{showOrder.contentValue}</Typography.Text>
-            </Space>
-            <Space direction="vertical">
-              <Typography.Text strong>Mô tả đơn: </Typography.Text>
-              <Flex gap={8} vertical>
-                <Typography.Text>
-                  ・Trọng lượng: {showOrder.weight}kg
-                </Typography.Text>
-                <Typography.Text>
-                  ・Kích thước: {showOrder.size}
-                </Typography.Text>
-              </Flex>
-            </Space>
-            <Space direction="vertical">
-              <Typography.Text strong>Lịch sử: </Typography.Text>
-              <Table
-                columns={[
-                  {
-                    title: "STT",
-                    dataIndex: "index",
-                    rowScope: "row",
-                  },
-                  {
-                    title: "Mô tả",
-                    dataIndex: "discription",
-                  },
-                  {
-                    title: "Thời gian",
-                    dataIndex: "datetime",
-                  },
-                ]}
-              />
-            </Space>
-          </Flex>
-        </Modal>
+        />
       )}
+      {(editOrderId || showAddForm) && (
+          <OrderForm
+            title={editOrderId ? "Chỉnh sửa đơn hàng" : "Thêm đơn hàng"}
+            open={editOrderId || showAddForm}
+            onCancel={handleCancelForm}
+            id={editOrderId}
+          />
+        )}
     </>
   );
 }

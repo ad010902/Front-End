@@ -5,6 +5,9 @@ const formMessages = {
   password: {
     required: "Hãy nhập mật khẩu!",
   },
+  weight: {
+    pattern: "Hãy nhập định dạng xx.xx",
+  },
 };
 
 const notiMessages = {

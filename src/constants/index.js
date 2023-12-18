@@ -104,7 +104,7 @@ const OrderToThisStepsItems = [
 
 const DeliverFailedOrderStepsItems = [
   {
-    title: "Giao không thành công",
+    title: "Giao thất bại",
     orderStatus: OrderStatus.deliverFailed,
   },
   {
@@ -119,7 +119,7 @@ const DeliverFailedOrderStepsItems = [
 
 const ReturnOrderStepsItems = [
   {
-    title: "Đơn hàng giao thất bại",
+    title: "Đơn hàng giao hoàn",
     orderStatus: OrderStatus.atReturnedStartTransacLocal,
   },
   {
@@ -143,7 +143,7 @@ const OrderTabs = [
   },
   {
     key: "don-hang-that-bai",
-    label: "Đơn hàng thất bại",
+    label: "Đơn hàng giao thất bại",
   },
   {
     key: "don-hang-giao-hoan",
