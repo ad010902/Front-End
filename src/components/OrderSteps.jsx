@@ -1,8 +1,7 @@
 import { Space, Steps } from "antd";
 import { useCallback, useState } from "react";
-import OrdersTable from "./OrdersTable";
 
-export default function OrderSteps({ items }) {
+export default function OrderSteps({ items, tableComponent }) {
   const [currentStep, setCurrentStep] = useState(0);
 
   const handleChangeStep = (value) => {
@@ -10,7 +9,8 @@ export default function OrderSteps({ items }) {
   };
 
   const renderTable = useCallback(() => {
-    return <OrdersTable status={items[currentStep].orderStatus} />;
+    const TableComponent = tableComponent;
+    return <TableComponent status={items[currentStep].orderStatus} />;
   }, [currentStep]);
   return (
     <>

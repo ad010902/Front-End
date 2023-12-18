@@ -15,7 +15,6 @@ import { formMessages } from "../../../constants/messages";
 import { UserOutlined } from "@ant-design/icons";
 import AuthContext from "../../../contexts/AuthContext";
 import { Role } from "../../../constants";
-import Typography from "antd/es/typography/Typography";
 
 const Login = () => {
   const navigate = useNavigate();
