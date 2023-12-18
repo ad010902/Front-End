@@ -23,13 +23,20 @@ const Login = () => {
 
   useEffect(() => {
     if (user) {
-      if (user.roles.includes(Role.owner)) {
-        navigate("/admin/diem-giao-dich");
-      } else if (user.roles.includes(Role.managerTrans)) {
-        navigate("/manager-trans/giao-dich-vien");
-      } else if (user.roles.includes(Role.staffTrans)) {
-        navigate("/giao-dich-vien/don-hang");
-      } else navigate("/");
+      switch (user.role.name) {
+        case Role.owner:
+          navigate("/admin/diem-giao-dich");
+          break;
+        case Role.managerTrans:
+          navigate("/manager-trans/giao-dich-vien");
+          break;
+        case Role.staffTrans:
+          navigate("/giao-dich-vien/don-hang");
+          break;
+        default:
+          navigate("/");
+          break;
+      }
     }
   }, [user]);
 
@@ -48,7 +55,7 @@ const Login = () => {
     } catch (error) {
       console.log(error);
       notification.error({
-        message: error.response.data.message,
+        message: error?.response?.data?.message ?? error.message,
         duration: 1,
       });
     }

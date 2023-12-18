@@ -1,57 +1,42 @@
 import { useMemo, useState } from "react";
 import PageHeader from "../../../components/PageHeader";
-import { Button, Flex, Space } from "antd";
-import { DeleteOutlined, EditOutlined, EyeFilled } from "@ant-design/icons";
-import ActionsCell from "../../../components/ActionsCell";
-import SearchBox from "../../../components/SearchBox";
-import ManageContainer from "../../../components/ManageContainer";
+import { Steps, Tabs } from "antd";
+import {
+  DeliverFailedOrderStepsItems,
+  OrderFromThisStepsItems,
+  OrderStepsItems,
+  OrderTabs,
+  OrderToThisStepsItems,
+  ReturnOrderStepsItems,
+} from "../../../constants";
+import OrderSteps from "./OrderSteps";
 
 export default function OrdersManage() {
-  const [data, setData] = useState([]);
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const columns = useMemo(() => {
-    return [
-      {
-        title: "Thao tác",
-        dataIndex: "actions",
-        render: (_, record) => {
-          return (
-            <ActionsCell
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-              record={record}
-            />
-          );
-        },
-      },
-    ];
-  }, [data]);
+  const [currentTab, setCurrentTab] = useState(OrderTabs[0].key);
 
-  const getData = async (keyword) => {};
-
-  const handleEdit = (orderId) => {};
-
-  const handleDelete = (orderId) => {};
-
-  const handleSearch = async ({ keyword }) => {
-    await getData(keyword);
-  };
-
-  const handleAdd = () => {};
-
-  const onSelectChange = (newSelectedRowKeys) => {
-    console.log("selectedRowKeys changed: ", newSelectedRowKeys);
-    setSelectedRowKeys(newSelectedRowKeys);
+  const handleChangeTab = (key) => {
+    setCurrentTab(key);
   };
   return (
-    <ManageContainer
-      title={"Đơn hàng"}
-      data={data}
-      selectedRowKeys={selectedRowKeys}
-      onSelectChange={onSelectChange}
-      columns={columns}
-      onAdd={handleAdd}
-      onSearch={handleSearch}
-    ></ManageContainer>
+    <>
+      <PageHeader title={"Đơn hàng"} />
+      <Tabs
+        items={OrderTabs}
+        defaultActiveKey={currentTab}
+        onChange={handleChangeTab}
+      />
+      {currentTab === OrderTabs[0].key && (
+        <OrderSteps items={OrderFromThisStepsItems} />
+      )}
+      {currentTab === OrderTabs[1].key && (
+        <OrderSteps items={OrderToThisStepsItems} />
+      )}
+      {currentTab === OrderTabs[2].key && (
+        <OrderSteps items={DeliverFailedOrderStepsItems} />
+      )}
+      {currentTab === OrderTabs[3].key && (
+        <OrderSteps items={ReturnOrderStepsItems} />
+      )}
+    </>
   );
 }
