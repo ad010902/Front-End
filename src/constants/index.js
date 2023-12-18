@@ -1,3 +1,5 @@
+import { OrderStatus } from "../utils/fakeData/Order";
+
 const MenuItemKey = {
   signIn: "sign-in",
   signOut: "sign-out",
@@ -5,10 +7,10 @@ const MenuItemKey = {
 };
 
 const Role = {
-  owner: "ROLE_ADMIN",
-  managerGather: "ROLE_MANAGERGATHER",
-  managerTrans: "ROLE_MANAGERTRANS",
-  staffTrans: "ROLE_STAFFTRANS",
+  owner: "admin",
+  managerGather: "managerGather",
+  managerTrans: "managerTrans",
+  staffTrans: "staffTrans",
 };
 
 const RoleName = {
@@ -66,6 +68,89 @@ const UserMenuItems = [
   },
 ];
 
+const OrderFromThisStepsItems = [
+  {
+    title: "Mới",
+    orderStatus: OrderStatus.new,
+  },
+  {
+    title: "Đang gửi đến điểm tập kết",
+    orderStatus: OrderStatus.toStartGatherLocal,
+  },
+  {
+    title: "Đã được nhận",
+    orderStatus: OrderStatus.atStartGatherLocal,
+  },
+];
+
+const OrderToThisStepsItems = [
+  {
+    title: "Đang đến",
+    orderStatus: OrderStatus.toTransacLocal,
+  },
+  {
+    title: "Đã đến",
+    orderStatus: OrderStatus.atTransacLocal,
+  },
+  {
+    title: "Đang gửi đến khách hàng",
+    orderStatus: OrderStatus.toCustomer,
+  },
+  {
+    title: "Giao thành công",
+    orderStatus: OrderStatus.ok,
+  },
+];
+
+const DeliverFailedOrderStepsItems = [
+  {
+    title: "Giao không thành công",
+    orderStatus: OrderStatus.deliverFailed,
+  },
+  {
+    title: "Đang trả về điểm tập kết",
+    orderStatus: OrderStatus.returnEndGatherLocal,
+  },
+  {
+    title: "Đã được trả về",
+    orderStatus: OrderStatus.atReturnedEndGatherLocal,
+  },
+];
+
+const ReturnOrderStepsItems = [
+  {
+    title: "Đơn hàng giao thất bại",
+    orderStatus: OrderStatus.atReturnedStartTransacLocal,
+  },
+  {
+    title: "Đang giao hoàn",
+    orderStatus: OrderStatus.returnGiver,
+  },
+  {
+    title: "Đã giao hoàn",
+    orderStatus: OrderStatus.atReturnedGiver,
+  },
+];
+
+const OrderTabs = [
+  {
+    key: "don-hang-moi",
+    label: "Đơn hàng mới",
+  },
+  {
+    key: "don-hang-den",
+    label: "Đơn hàng đến",
+  },
+  {
+    key: "don-hang-that-bai",
+    label: "Đơn hàng thất bại",
+  },
+  {
+    key: "don-hang-giao-hoan",
+    label: "Đơn hàng giao hoàn",
+  },
+];
+
 export {
   MenuItemKey,
   Role,
@@ -74,4 +159,9 @@ export {
   RoleName,
   ManagerTransMenuItems,
   TellerMenuItems,
+  OrderFromThisStepsItems,
+  OrderToThisStepsItems,
+  OrderTabs,
+  DeliverFailedOrderStepsItems,
+  ReturnOrderStepsItems,
 };

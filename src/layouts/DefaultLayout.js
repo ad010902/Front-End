@@ -92,7 +92,7 @@ export default function DefaultLayout({ menuItems }) {
         >
           <Flex align="center" gap={8}>
             <Typography.Text style={{ color: "white" }}>
-              {user.username}
+              {user?.username}
             </Typography.Text>
             <Avatar
               style={{ backgroundColor: "white", color: "black" }}
