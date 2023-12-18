@@ -26,15 +26,15 @@ export default function OrderForm({ title, open, onCancel, id }) {
 
   const getInitialData = async () => {
     const order = orders.find((o) => o.idOrder === id);
-    const [width, height, length] = order.size?.split("x");
-    order.size = {
+    const o = { ...order };
+    const [width, height, length] = o.size?.split("x");
+    o.size = {
       width,
       height,
       length,
     };
 
-    console.log(order);
-    setInitialValues(order);
+    setInitialValues(o);
   };
 
   const handleSubmit = () => {
