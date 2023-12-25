@@ -7,6 +7,7 @@ import Middleware from "./middlewares/Middleware";
 import Login from "./pages/Auth/Login";
 import AdminDashboard from "./pages/Admin/Dashboard";
 import AuthContext from "./contexts/AuthContext";
+import Dashboard from "./pages/DashBoard";
 import {
   AdminMenuItems,
   ManagerTransMenuItems,
@@ -36,37 +37,42 @@ const App = () => {
   }, []);
   return (
     <Routes>
-      <Route exact path="/sign-in" element={<Login />} />
+      {" "}
+      {/* <Route exact path="/sign-up" element={<SignUp />} /> */}{" "}
+      <Route exact path="/sign-in" element={<Login />} />{" "}
       <Route
         path="/"
         element={<DefaultLayout menuItems={UserMenuItems} />}
-      ></Route>
+      ></Route>{" "}
       <Route
         path="admin"
         element={<DefaultLayout menuItems={AdminMenuItems} />}
       >
         <Route path="" element={<Middleware role={Role.owner} />}>
-          <Route path="diem-tap-ket" element={<AdminDashboard />} />
-          <Route path="diem-giao-dich" element={<TransLocalManage />} />
-          <Route path="tai-khoan" element={<AccountsManage />} />
-        </Route>
-      </Route>
+          {" "}
+          <Route path="diem-tap-ket" element={<AdminDashboard />} />{" "}
+          <Route path="diem-giao-dich" element={<TransLocalManage />} />{" "}
+          <Route path="tai-khoan" element={<AccountsManage />} />{" "}
+        </Route>{" "}
+      </Route>{" "}
       <Route
         path="manager-trans"
         element={<DefaultLayout menuItems={ManagerTransMenuItems} />}
       >
         <Route path="" element={<Middleware role={Role.managerTrans} />}>
-          <Route path="giao-dich-vien" element={<TellersManage />} />
-        </Route>
-      </Route>
+          {" "}
+          <Route path="giao-dich-vien" element={<TellersManage />} />{" "}
+        </Route>{" "}
+      </Route>{" "}
       <Route
         path="giao-dich-vien"
         element={<DefaultLayout menuItems={TellerMenuItems} />}
       >
         <Route element={<Middleware role={Role.staffTrans} />}>
-          <Route path="don-hang" element={<OrdersManage />} />
-        </Route>
-      </Route>
+          {" "}
+          <Route path="don-hang" element={<OrdersManage />} />{" "}
+        </Route>{" "}
+      </Route>{" "}
     </Routes>
   );
 };
