@@ -18,6 +18,7 @@ const notiMessages = {
   createSuccessfully: "Tạo mới thành công!",
   updateSuccessfully: "Cập nhật thành công!",
   deleteSuccessfully: "Xóa thành công!",
+  confirmSuccessfully: "Xác nhận đơn hàng thành công!"
 };
 
 export { formMessages, notiMessages };
