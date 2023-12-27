@@ -39,7 +39,7 @@ const App = () => {
     <Routes>
       {" "}
       {/* <Route exact path="/sign-up" element={<SignUp />} /> */}{" "}
-      <Route exact path="/sign-in" element={<Login />} />{" "}
+      <Route exact path="/sign-in" element={<Dashboard />} />{" "}
       <Route
         path="/"
         element={<DefaultLayout menuItems={UserMenuItems} />}
